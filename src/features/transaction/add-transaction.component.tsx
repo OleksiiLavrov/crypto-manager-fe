@@ -34,6 +34,7 @@ export const AddTransaction = () => {
    const [coinAmount, setCoinAmount] = useState<string>('');
    const [total, setTotal] = useState<string>('');
    const [openModal, setOpenModal] = useState<boolean>(false);
+   const [loading, setLoading] = useState<boolean>(false);
 
    useEffect(() => {
       if (!coins.length) {
@@ -43,15 +44,12 @@ export const AddTransaction = () => {
       }
    }, []);
 
-   if (!coins.length) {
-      return null;
-   }
-
    const coinsName = useMemo(() => {
       return coins.map((coin) => coin.name);
    }, [coins]);
 
    const submitHandler = async () => {
+      setLoading(true);
       try {
          if (coinName.length && coinAmount.length && total.length) {
             await createTransaction({
@@ -61,14 +59,20 @@ export const AddTransaction = () => {
             });
             toast.success('Transaction added!');
          }
+         setCoinName('');
+         setCoinAmount('');
+         setTotal('');
       } catch (error) {
          console.log(error);
-         toast.success(`Something went wrong!\n${error}`);
+         toast.error(`Something went wrong!\n${error}`);
+      } finally {
+         setLoading(false);
       }
    };
 
    const addFileHandler = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
+         setLoading(true);
          const formData = new FormData();
          formData.append('file', e.target.files[0]);
          try {
@@ -83,9 +87,15 @@ export const AddTransaction = () => {
          } catch (error) {
             console.log('error', error);
             toast.error(`Something went wrong!\n${error}`);
+         } finally {
+            setLoading(false);
          }
       }
    }, []);
+
+   if (!coins.length) {
+      return null;
+   }
 
    return (
       <Box sx={{ display: 'flex', gap: '10px', margin: '10px 0' }}>
@@ -126,7 +136,7 @@ export const AddTransaction = () => {
                setTotal(e.target.value);
             }}
          />
-         <Button variant="contained" onClick={submitHandler}>
+         <Button variant="contained" onClick={submitHandler} disabled={loading}>
             Add transaction
          </Button>
          <IconButton color="primary" aria-label="upload-file" onClick={() => setOpenModal(true)}>
@@ -143,6 +153,7 @@ export const AddTransaction = () => {
                   boxShadow: 24,
                   padding: 4,
                   textAlign: 'center',
+                  backgroundColor: '#ffffff',
                }}
             >
                <Typography mb={1} variant="h6" component="h2">
@@ -156,19 +167,23 @@ export const AddTransaction = () => {
                      justifyContent: 'center',
                   }}
                >
-                  <Button
-                     component="label"
-                     role={undefined}
-                     variant="contained"
-                     startIcon={<UploadFileIcon />}
-                  >
-                     Upload
-                     <VisuallyHiddenInput
-                        type="file"
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        onChange={addFileHandler}
-                     />
-                  </Button>
+                  {loading ? (
+                     <span>Loading...</span>
+                  ) : (
+                     <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        startIcon={<UploadFileIcon />}
+                     >
+                        Upload
+                        <VisuallyHiddenInput
+                           type="file"
+                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                           onChange={addFileHandler}
+                        />
+                     </Button>
+                  )}
                </Box>
             </Box>
          </Modal>

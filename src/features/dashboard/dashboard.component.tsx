@@ -25,6 +25,10 @@ export const Dashboard = () => {
       (async () => await getCoins())();
    }, []);
 
+   if (!coins.length) {
+      return null;
+   }
+
    return (
       <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }}>

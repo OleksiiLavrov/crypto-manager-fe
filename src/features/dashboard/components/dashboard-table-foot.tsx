@@ -4,7 +4,11 @@ export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any 
    const { total_value, total_invested, pnl, backgroundColor } = rowData;
    return (
       <TableRow>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
+         <TableCell
+            sx={{ border: '1px solid #cecece', fontWeight: 700, textTransform: 'uppercase' }}
+         >
+            Total
+         </TableCell>
          <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
          <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
          <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>

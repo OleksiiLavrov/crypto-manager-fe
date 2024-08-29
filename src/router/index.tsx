@@ -6,7 +6,7 @@ import { App } from '../App';
 export const router = createBrowserRouter(
    createRoutesFromElements(
       <Route path="/" element={<App />}>
-         <Route index path="/dashboard" element={<Dashboard />} />
+         <Route index path="/" element={<Dashboard />} />
          <Route path="/add-transaction" element={<AddTransaction />} />
       </Route>,
    ),
