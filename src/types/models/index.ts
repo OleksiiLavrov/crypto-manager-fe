@@ -20,3 +20,5 @@ export type TransactionModel = {
    coin_name: string;
    createdAt: string;
 };
+
+export type TransactionDto = Omit<TransactionModel, '_id' | 'createdAt'>;

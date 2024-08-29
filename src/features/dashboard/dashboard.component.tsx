@@ -1,97 +1,64 @@
-import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import {
-   TableBody,
-   Table,
-   TableCell,
-   TableContainer,
-   TableHead,
-   TableRow,
-   Paper,
-} from '@mui/material';
+import { useEffect, useMemo } from 'react';
+import { TableBody, Table, TableContainer, Paper } from '@mui/material';
 import { CoinModel } from '../../types/models';
-import store from './store';
+import { DashboardTableFoot, DashboardTableHead, DashboardTableRow } from './components';
+import useStore from '../../store/store';
 
 export const Dashboard = () => {
-   const [coins, setCoins] = useState<CoinModel[]>([]);
-
-   const getCoins = async () => {
-      try {
-         const coins: CoinModel[] = await fetch('http://localhost:8080/coins').then((res) =>
-            res.json(),
-         );
-         console.log(coins);
-         store.setToStorage(coins);
-         return coins;
-      } catch (error) {
-         console.log(error);
-         return store.getFromStorage();
-      }
-   };
-
-   useEffect(() => {
-      const stored = store.getFromStorage();
-      setCoins(stored);
-      (async () => setCoins(await getCoins()))();
-   }, []);
+   const { coins, getCoins } = useStore();
+   const total = useMemo(() => {
+      const totalSum = coins.reduce(
+         (acc, coin: CoinModel) => {
+            acc.total_value += coin.total_value;
+            acc.total_invested += coin.total_invested;
+            return acc;
+         },
+         { total_value: 0, total_invested: 0, pnl: 0 },
+      );
+      totalSum.pnl =
+         ((totalSum.total_value - totalSum.total_invested) / Math.abs(totalSum.total_invested)) *
+         100;
+      return totalSum;
+   }, [coins]);
 
    useEffect(() => {
-      const interval = setInterval(async () => {
-         setCoins(await getCoins());
-      }, 60000);
-      return () => clearInterval(interval);
+      (async () => await getCoins())();
    }, []);
 
    return (
       <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
-               <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Current price</TableCell>
-                  <TableCell>Total amount</TableCell>
-                  <TableCell>Average price</TableCell>
-                  <TableCell>Total value</TableCell>
-                  <TableCell>Total invested</TableCell>
-                  <TableCell>PNL</TableCell>
-                  <TableCell>Updated At</TableCell>
-                  <TableCell>Created At</TableCell>
-               </TableRow>
-            </TableHead>
+            <DashboardTableHead />
             <TableBody>
-               {coins.length
-                  ? coins.map((coinModel: CoinModel) => (
-                       <TableRow
-                          key={coinModel.name}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                       >
-                          <TableCell component="th" scope="row">
-                             {coinModel.name}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                             {coinModel.price.toFixed(4)}
-                          </TableCell>
-                          <TableCell>{coinModel.total_amount.toFixed(3)}</TableCell>
-                          <TableCell>{coinModel.avg.toFixed(4)}</TableCell>
-                          <TableCell>{coinModel.total_invested.toFixed(2)}</TableCell>
-                          <TableCell>{coinModel.total_value.toFixed(2)}</TableCell>
-                          <TableCell
-                             sx={{
-                                color: coinModel.pnl < 0 ? '#d61a20' : '#27c416',
-                                fontWeight: 700,
-                             }}
-                          >
-                             {coinModel.pnl.toFixed(1)}%
-                          </TableCell>
-                          <TableCell>
-                             {format(new Date(coinModel.updatedAt), 'MM/dd/yyyy')}
-                          </TableCell>
-                          <TableCell>
-                             {format(new Date(coinModel.createdAt), 'MM/dd/yyyy')}
-                          </TableCell>
-                       </TableRow>
-                    ))
-                  : null}
+               {coins.length > 0 &&
+                  coins
+                     .filter((coin) => coin.total_amount > 0)
+                     .map((coinModel: CoinModel, index: number) => {
+                        return (
+                           <DashboardTableRow
+                              key={coinModel.name}
+                              isEven={index % 2 === 0}
+                              rowData={{
+                                 ...coinModel,
+                                 price: coinModel.price.toFixed(4),
+                                 total_amount: coinModel.total_amount?.toFixed(3),
+                                 avg: coinModel.avg?.toFixed(4),
+                                 total_value: coinModel.total_value?.toFixed(2),
+                                 total_invested: coinModel.total_invested?.toFixed(2),
+                                 pnl: coinModel.pnl?.toFixed(1),
+                                 backgroundColor: coinModel.pnl < 0 ? '#f71119' : '#27c416',
+                              }}
+                           />
+                        );
+                     })}
+               <DashboardTableFoot
+                  rowData={{
+                     total_value: total.total_value?.toFixed(2),
+                     total_invested: total.total_invested?.toFixed(2),
+                     pnl: total.pnl?.toFixed(1),
+                     backgroundColor: total.pnl < 0 ? '#f71119' : '#27c416',
+                  }}
+               />
             </TableBody>
          </Table>
       </TableContainer>
