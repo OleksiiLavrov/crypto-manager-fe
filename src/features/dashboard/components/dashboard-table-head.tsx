@@ -1,7 +1,7 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
 const DashboardTableCell = ({ label }: { label: string }) => (
-   <TableCell sx={{ border: '1px solid #cecece', fontWeight: 700 }}>{label}</TableCell>
+   <TableCell sx={{ border: '1px solid #cecece', fontWeight: 700, backgroundColor: "#6c6c6c", color: "#ffffff" }}>{label}</TableCell>
 );
 
 export const DashboardTableHead = () => {

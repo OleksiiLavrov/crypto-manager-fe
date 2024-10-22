@@ -1,22 +1,28 @@
-import { TableCell, TableRow } from '@mui/material';
+import { styled, TableCell, TableRow } from '@mui/material';
+
+const StyledTableCell = styled(TableCell)(() => ({
+   border: '1px solid #cecece',
+   textAlign: 'center',
+   color: "#ffffff" 
+}));
 
 export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any } }) => {
    const { total_value, total_invested, pnl, backgroundColor } = rowData;
    return (
-      <TableRow>
-         <TableCell
-            sx={{ border: '1px solid #cecece', fontWeight: 700, textTransform: 'uppercase' }}
+      <TableRow sx={{ backgroundColor: "#6c6c6c"}}>
+         <StyledTableCell
+            sx={{ fontWeight: 700, textTransform: 'uppercase', textAlign: 'left' }}
          >
             Total
-         </TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
-         <TableCell sx={{ border: '1px solid #cecece', fontWeight: 700 }}>{total_value}</TableCell>
-         <TableCell sx={{ border: '1px solid #cecece', fontWeight: 700 }}>
+         </StyledTableCell>
+         <StyledTableCell></StyledTableCell>
+         <StyledTableCell></StyledTableCell>
+         <StyledTableCell></StyledTableCell>
+         <StyledTableCell sx={{ fontWeight: 700 }}>{total_value}</StyledTableCell>
+         <StyledTableCell sx={{ fontWeight: 700 }}>
             {total_invested}
-         </TableCell>
-         <TableCell
+         </StyledTableCell>
+         <StyledTableCell
             sx={{
                backgroundColor,
                fontWeight: 700,
@@ -24,9 +30,9 @@ export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any 
             }}
          >
             {pnl}%
-         </TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}></TableCell>
+         </StyledTableCell>
+         <StyledTableCell></StyledTableCell>
+         <StyledTableCell></StyledTableCell>
       </TableRow>
    );
 };

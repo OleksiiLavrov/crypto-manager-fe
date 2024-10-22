@@ -1,6 +1,11 @@
-import { TableCell, TableRow } from '@mui/material';
+import { styled, TableCell, TableRow } from '@mui/material';
 import { format } from 'date-fns';
 import { useState } from 'react';
+
+const StyledTableCell = styled(TableCell)(() => ({
+   border: '1px solid #cecece',
+   textAlign: 'center',
+}));
 
 export const DashboardTableRow = ({
    rowData,
@@ -39,35 +44,36 @@ export const DashboardTableRow = ({
             setHovered(false);
          }}
       >
-         <TableCell
+         <StyledTableCell
             component="th"
             scope="row"
-            sx={{ border: '1px solid #cecece', fontWeight: 700 }}
+            sx={{
+               fontWeight: 700,
+               textAlign: 'left',
+            }}
          >
             {name}
-         </TableCell>
-         <TableCell component="th" scope="row" sx={{ border: '1px solid #cecece' }}>
+         </StyledTableCell>
+         <StyledTableCell component="th" scope="row">
             {price}
-         </TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>{total_amount}</TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>{avg}</TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>{total_value}</TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>{total_invested}</TableCell>
-         <TableCell
+         </StyledTableCell>
+         <StyledTableCell>{total_amount}</StyledTableCell>
+         <StyledTableCell>{avg}</StyledTableCell>
+         <StyledTableCell sx={{fontWeight: 700}}>{total_value}</StyledTableCell>
+         <StyledTableCell sx={{fontWeight: 700}}>{total_invested}</StyledTableCell>
+         <StyledTableCell
             sx={{
                backgroundColor,
-               fontWeight: 700,
-               border: '1px solid #cecece',
             }}
          >
             {pnl}%
-         </TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>
+         </StyledTableCell>
+         <StyledTableCell>
             {format(new Date(updatedAt), 'MM/dd/yyyy')}
-         </TableCell>
-         <TableCell sx={{ border: '1px solid #cecece' }}>
+         </StyledTableCell>
+         <StyledTableCell>
             {format(new Date(createdAt), 'MM/dd/yyyy')}
-         </TableCell>
+         </StyledTableCell>
       </TableRow>
    );
 };

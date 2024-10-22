@@ -50,7 +50,7 @@ export const Dashboard = () => {
                                  total_value: coinModel.total_value?.toFixed(2),
                                  total_invested: coinModel.total_invested?.toFixed(2),
                                  pnl: coinModel.pnl?.toFixed(1),
-                                 backgroundColor: coinModel.pnl < 0 ? '#f71119' : '#27c416',
+                                 backgroundColor: coinModel.pnl < 0 ? '#fc4454' : '#90ee90',
                               }}
                            />
                         );
@@ -60,7 +60,7 @@ export const Dashboard = () => {
                      total_value: total.total_value?.toFixed(2),
                      total_invested: total.total_invested?.toFixed(2),
                      pnl: total.pnl?.toFixed(1),
-                     backgroundColor: total.pnl < 0 ? '#f71119' : '#27c416',
+                     backgroundColor: total.pnl < 0 ? '#fc4454' : '#90ee90',
                   }}
                />
             </TableBody>
