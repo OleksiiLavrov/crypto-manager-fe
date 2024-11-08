@@ -5,6 +5,10 @@ import { useState } from 'react';
 const StyledTableCell = styled(TableCell)(() => ({
    border: '1px solid #cecece',
    textAlign: 'center',
+   maxWidth: '100px',
+   overflow: 'hidden',
+   textOverflow: 'ellipsis',
+   whiteSpace: 'nowrap',
 }));
 
 export const DashboardTableRow = ({
