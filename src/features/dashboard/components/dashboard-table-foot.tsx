@@ -9,7 +9,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any } }) => {
    const { total_value, total_invested, pnl, backgroundColor } = rowData;
    return (
-      <TableRow sx={{ backgroundColor: "#6c6c6c"}}>
+      <TableRow sx={{ backgroundColor: "#1976d2"}}>
          <StyledTableCell
             sx={{ fontWeight: 700, textTransform: 'uppercase', textAlign: 'left' }}
          >
@@ -31,6 +31,7 @@ export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any 
          >
             {pnl}%
          </StyledTableCell>
+         <StyledTableCell></StyledTableCell>
          <StyledTableCell></StyledTableCell>
          <StyledTableCell></StyledTableCell>
       </TableRow>

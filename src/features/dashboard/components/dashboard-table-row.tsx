@@ -1,6 +1,8 @@
-import { styled, TableCell, TableRow } from '@mui/material';
+import { IconButton, styled, TableCell, TableRow } from '@mui/material';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import useDashboardTableStore from '../../../store/dashboard-table-store';
 
 const StyledTableCell = styled(TableCell)(() => ({
    border: '1px solid #cecece',
@@ -19,6 +21,7 @@ export const DashboardTableRow = ({
    isEven: boolean;
 }) => {
    const {
+      _id,
       name,
       price,
       total_amount,
@@ -32,6 +35,7 @@ export const DashboardTableRow = ({
    } = rowData;
 
    const [hovered, setHovered] = useState<boolean>(false);
+   const { hiddenCoinsIds, setHiddenCoinsIds } = useDashboardTableStore();
 
    return (
       <TableRow
@@ -77,6 +81,11 @@ export const DashboardTableRow = ({
          </StyledTableCell>
          <StyledTableCell>
             {format(new Date(createdAt), 'MM/dd/yyyy')}
+         </StyledTableCell>
+         <StyledTableCell>
+            <IconButton onClick={() => {setHiddenCoinsIds([...hiddenCoinsIds, _id])}}>
+               <VisibilityOffIcon sx={{'&:hover': {color: '#1976d2'}}} />
+            </IconButton>
          </StyledTableCell>
       </TableRow>
    );

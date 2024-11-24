@@ -1,12 +1,9 @@
 import {
+   Autocomplete,
    Box,
    Button,
-   FormControl,
    IconButton,
-   InputLabel,
-   MenuItem,
    Modal,
-   Select,
    TextField,
    Typography,
    styled,
@@ -76,7 +73,7 @@ export const AddTransaction = () => {
          const formData = new FormData();
          formData.append('file', e.target.files[0]);
          try {
-            await fetch('http://localhost:8080/transactions/upload', {
+            await fetch(`${import.meta.env.VITE_API_URL}/transactions/upload`, {
                method: 'POST',
                body: formData,
             }).catch((e) => {
@@ -100,24 +97,15 @@ export const AddTransaction = () => {
    return (
       <Box sx={{ display: 'flex', gap: '10px', margin: '10px 0' }}>
          <Toaster position="top-center" reverseOrder={false} />
-         <FormControl sx={{ minWidth: '200px' }}>
-            <InputLabel id="coin-name-label">Coin name</InputLabel>
-            <Select
-               labelId="coin-name-label"
-               value={coinName}
-               label="Coin name"
-               onChange={(e) => {
-                  setCoinName(e.target.value);
-               }}
-            >
-               {coinsName.length &&
-                  coinsName.map((coin) => (
-                     <MenuItem key={coin} value={coin}>
-                        {coin}
-                     </MenuItem>
-                  ))}
-            </Select>
-         </FormControl>
+         <Autocomplete
+            freeSolo
+            options={coinsName}
+            value={coinName}
+            onChange={(_, newValue) => setCoinName(newValue || '')}
+            onInputChange={(_, newValue) => setCoinName(newValue || '')}
+            sx={{ width: 200 }}
+            renderInput={(params) => <TextField {...params} label="Coin name" />}
+         />
          <TextField
             label="Coin amount"
             variant="outlined"

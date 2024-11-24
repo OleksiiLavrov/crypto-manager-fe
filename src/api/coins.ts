@@ -10,7 +10,7 @@ class CoinsService {
          if (cached && Date.now() - cached.timestamp < TIME_TO_CACHE) {
             return cached.data;
          }
-         return fetch(`http://localhost:8080/coins`)
+         return fetch(`${import.meta.env.VITE_API_URL}/coins`)
             .then((res) => res.json())
             .then((data: CoinModel[]) => {
                store.setToStorage(data, 'coins');

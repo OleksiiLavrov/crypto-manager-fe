@@ -4,7 +4,7 @@ class TransactionsService {
    public async createTransaction(dto: TransactionDto): Promise<TransactionModel | undefined> {
       try {
          const { coin_amount, coin_name, total_cost } = dto;
-         return fetch('http://localhost:8080/transactions', {
+         return fetch(`${import.meta.env.VITE_API_URL}/transactions`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
