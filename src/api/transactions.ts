@@ -21,6 +21,17 @@ class TransactionsService {
          console.error(error);
       }
    }
+   public async getTransactionsPerCoin(
+      coinName: string,
+   ): Promise<TransactionModel[] | undefined> {
+      try {
+         return fetch(`${import.meta.env.VITE_API_URL}/transactions/${coinName}`)
+            .then((res) => res.json())
+            .then((data: TransactionModel[]) => data);
+      } catch (error) {
+         console.error(error);
+      }
+   }
 }
 
 export const transactionsService = new TransactionsService();

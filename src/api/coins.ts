@@ -16,9 +16,20 @@ class CoinsService {
                store.setToStorage(data, 'coins');
                return data;
             })
-            .catch((e) => {
-               throw new Error(e);
-            });
+      } catch (error) {
+         console.error(error);
+      }
+   }
+
+   public async getCoin(coinName: string): Promise<CoinModel | undefined> {
+      try {
+         const cached = store.getFromStorage('coins');
+         if (cached && Date.now() - cached.timestamp < TIME_TO_CACHE) {
+            return cached.data.find((coin: CoinModel) => coin.name === coinName);
+         }
+         return fetch(`${import.meta.env.VITE_API_URL}/coins/${coinName}`)
+            .then((res) => res.json())
+            .then((data: CoinModel) => data);
       } catch (error) {
          console.error(error);
       }

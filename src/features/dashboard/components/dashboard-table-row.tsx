@@ -1,8 +1,9 @@
 import { IconButton, styled, TableCell, TableRow } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import useDashboardTableStore from '../../../store/dashboard-table-store';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(() => ({
    border: '1px solid #cecece',
@@ -20,6 +21,7 @@ export const DashboardTableRow = ({
    rowData: { [key: string]: any };
    isEven: boolean;
 }) => {
+   const navigate = useNavigate();
    const {
       _id,
       name,
@@ -37,6 +39,11 @@ export const DashboardTableRow = ({
    const [hovered, setHovered] = useState<boolean>(false);
    const { hiddenCoinsIds, setHiddenCoinsIds } = useDashboardTableStore();
 
+   const handleHideCoin = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      setHiddenCoinsIds([...hiddenCoinsIds, _id]);
+   }, [_id, hiddenCoinsIds, setHiddenCoinsIds]);
+
    return (
       <TableRow
          sx={{
@@ -50,6 +57,9 @@ export const DashboardTableRow = ({
          }}
          onMouseLeave={() => {
             setHovered(false);
+         }}
+         onClick={() => {
+            navigate(`/coin/${name}`);
          }}
       >
          <StyledTableCell
@@ -83,7 +93,7 @@ export const DashboardTableRow = ({
             {format(new Date(createdAt), 'MM/dd/yyyy')}
          </StyledTableCell>
          <StyledTableCell>
-            <IconButton onClick={() => {setHiddenCoinsIds([...hiddenCoinsIds, _id])}}>
+            <IconButton onClick={handleHideCoin}>
                <VisibilityOffIcon sx={{'&:hover': {color: '#1976d2'}}} />
             </IconButton>
          </StyledTableCell>
