@@ -5,14 +5,14 @@ import { CoinModel } from '../types/models';
 type SortingRule = {
    rule: keyof CoinModel;
    direction: 'ASC' | 'DESC';
-}
+};
 
 type StoreState = {
-   hiddenCoinsIds: string[];
+   hiddenCoinsIds: number[];
    coinsSortingRule: SortingRule;
-   setHiddenCoinsIds: (ids: string[]) => void;
+   setHiddenCoinsIds: (ids: number[]) => void;
    setCoinsSortingRule: (rule: keyof CoinModel) => void;
-}
+};
 
 const getInitialPropsState = (): Omit<StoreState, 'setHiddenCoinsIds' | 'setCoinsSortingRule'> => {
    const { data: hiddenCoinsIds } = store.getFromStorage('hiddenCoinsIds') || { data: [] };
@@ -28,7 +28,7 @@ const getInitialPropsState = (): Omit<StoreState, 'setHiddenCoinsIds' | 'setCoin
 
 const useDashboardTableStore = create<StoreState>((set) => ({
    ...getInitialPropsState(),
-   setHiddenCoinsIds: (ids: string[]) => {
+   setHiddenCoinsIds: (ids: number[]) => {
       store.setToStorage(ids, 'hiddenCoinsIds');
       set(() => ({ hiddenCoinsIds: ids }));
    },
@@ -36,7 +36,12 @@ const useDashboardTableStore = create<StoreState>((set) => ({
       set((state) => {
          const newRule: SortingRule = {
             rule,
-            direction: rule === state.coinsSortingRule.rule ? (state.coinsSortingRule.direction === 'ASC' ? 'DESC' : 'ASC') : 'ASC',
+            direction:
+               rule === state.coinsSortingRule.rule
+                  ? state.coinsSortingRule.direction === 'ASC'
+                     ? 'DESC'
+                     : 'ASC'
+                  : 'ASC',
          };
          store.setToStorage(newRule, 'coinsSortingRule');
          return { coinsSortingRule: newRule };

@@ -26,10 +26,10 @@ export const DashboardTableRow = ({
       _id,
       name,
       price,
-      total_amount,
+      totalAmount,
       avg,
-      total_value,
-      total_invested,
+      totalValue,
+      totalInvested,
       pnl,
       updatedAt,
       createdAt,
@@ -75,10 +75,10 @@ export const DashboardTableRow = ({
          <StyledTableCell component="th" scope="row">
             {price}
          </StyledTableCell>
-         <StyledTableCell>{total_amount}</StyledTableCell>
+         <StyledTableCell>{totalAmount}</StyledTableCell>
          <StyledTableCell>{avg}</StyledTableCell>
-         <StyledTableCell sx={{fontWeight: 700}}>{total_value}</StyledTableCell>
-         <StyledTableCell sx={{fontWeight: 700}}>{total_invested}</StyledTableCell>
+         <StyledTableCell sx={{fontWeight: 700}}>{totalValue}</StyledTableCell>
+         <StyledTableCell sx={{fontWeight: 700}}>{totalInvested}</StyledTableCell>
          <StyledTableCell
             sx={{
                backgroundColor,

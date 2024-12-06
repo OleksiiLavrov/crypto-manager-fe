@@ -12,14 +12,14 @@ export const Dashboard = () => {
    const total = useMemo(() => {
       const totalSum = coins.reduce(
          (acc, coin: CoinModel) => {
-            acc.total_value += coin.total_value;
-            acc.total_invested += coin.total_invested;
+            acc.totalValue += coin.totalValue;
+            acc.totalInvested += coin.totalInvested;
             return acc;
          },
-         { total_value: 0, total_invested: 0, pnl: 0 },
+         { totalValue: 0, totalInvested: 0, pnl: 0 },
       );
       totalSum.pnl =
-         ((totalSum.total_value - totalSum.total_invested) / Math.abs(totalSum.total_invested)) *
+         ((totalSum.totalValue - totalSum.totalInvested) / Math.abs(totalSum.totalInvested)) *
          100;
       return totalSum;
    }, [coins]);
@@ -64,7 +64,7 @@ export const Dashboard = () => {
             <TableBody>
                {sortedCoins.length > 0 &&
                   sortedCoins
-                     .filter((coin) => !hiddenCoinsIds.includes(coin._id))
+                     .filter((coin) => !hiddenCoinsIds.includes(coin.id))
                      .map((coinModel: CoinModel, index: number) => {
                         return (
                            <DashboardTableRow
@@ -73,10 +73,10 @@ export const Dashboard = () => {
                               rowData={{
                                  ...coinModel,
                                  price: coinModel.price.toFixed(4),
-                                 total_amount: coinModel.total_amount?.toFixed(3),
+                                 totalAmount: coinModel.totalAmount?.toFixed(3),
                                  avg: coinModel.avg?.toFixed(4),
-                                 total_value: coinModel.total_value?.toFixed(2),
-                                 total_invested: coinModel.total_invested?.toFixed(2),
+                                 totalValue: coinModel.totalValue?.toFixed(2),
+                                 totalInvested: coinModel.totalInvested?.toFixed(2),
                                  pnl: coinModel.pnl?.toFixed(1),
                                  backgroundColor: coinModel.pnl < 0 ? '#fc4454' : '#90ee90',
                               }}
@@ -85,8 +85,8 @@ export const Dashboard = () => {
                      })}
                <DashboardTableFoot
                   rowData={{
-                     total_value: total.total_value?.toFixed(2),
-                     total_invested: total.total_invested?.toFixed(2),
+                     totalValue: total.totalValue?.toFixed(2),
+                     totalInvested: total.totalInvested?.toFixed(2),
                      pnl: total.pnl?.toFixed(1),
                      backgroundColor: total.pnl < 0 ? '#fc4454' : '#90ee90',
                   }}

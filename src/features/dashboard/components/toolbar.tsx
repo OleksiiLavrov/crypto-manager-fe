@@ -12,7 +12,7 @@ export const Toolbar = () => {
   return (
   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '16px', gap: '16px' }}>
     <Typography sx={{ fontWeight: 700, backgroundColor: "#1976d2", color: "#ffffff", padding: '8px 16px', borderRadius: '15px' }}>
-       Owned coins: {coins.filter((coin) => coin.total_amount > 0).length}
+       Owned coins: {coins.filter((coin) => coin.totalAmount > 0).length}
     </Typography>
     <Box 
        sx={{ position: 'relative', width: '175px', textAlign: 'center', cursor: 'pointer' }} 
@@ -38,7 +38,7 @@ export const Toolbar = () => {
              }}
           >
              {coins.map((coin) => {
-                if (!hiddenCoinsIds.includes(coin._id)) return null;
+                if (!hiddenCoinsIds.includes(coin.id)) return null;
                 return (
                    <Box 
                       sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', borderBottom: '1px solid #cecece' }}
@@ -46,7 +46,7 @@ export const Toolbar = () => {
                       <Typography sx={{ fontWeight: 700, color: "#000000" }}>
                          {coin.name}
                       </Typography>
-                      <IconButton onClick={() => {setHiddenCoinsIds(hiddenCoinsIds.filter((id) => id !== coin._id))}}>
+                      <IconButton onClick={() => {setHiddenCoinsIds(hiddenCoinsIds.filter((id) => id !== coin.id))}}>
                          <VisibilityIcon sx={{'&:hover': {color: '#1976d2'}}} />
                       </IconButton>
                    </Box>

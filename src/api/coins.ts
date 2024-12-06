@@ -1,4 +1,4 @@
-import { CoinModel } from '../types/models';
+import { CoinModel, TransactionModel } from '../types/models';
 import store from '../store/local-store';
 
 const TIME_TO_CACHE = 10000;
@@ -15,7 +15,7 @@ class CoinsService {
             .then((data: CoinModel[]) => {
                store.setToStorage(data, 'coins');
                return data;
-            })
+            });
       } catch (error) {
          console.error(error);
       }
@@ -30,6 +30,16 @@ class CoinsService {
          return fetch(`${import.meta.env.VITE_API_URL}/coins/${coinName}`)
             .then((res) => res.json())
             .then((data: CoinModel) => data);
+      } catch (error) {
+         console.error(error);
+      }
+   }
+
+   public async getCoinTransactions(coinName: string): Promise<TransactionModel[] | undefined> {
+      try {
+         return fetch(`${import.meta.env.VITE_API_URL}/coins/${coinName}/transactions`)
+            .then((res) => res.json())
+            .then((data: CoinModel) => data.transactions);
       } catch (error) {
          console.error(error);
       }

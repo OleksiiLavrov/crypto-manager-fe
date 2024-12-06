@@ -1,14 +1,14 @@
 export type CoinModel = {
-   _id: string;
-   total_invested: number;
-   total_amount: number;
-   total_value: number;
+   id: number;
+   totalInvested: number;
+   totalAmount: number;
+   totalValue: number;
    name: string;
-   transactions: string[];
+   transactions: TransactionModel[];
    createdAt: Date;
    updatedAt: Date;
    price: number;
-   market_cap: number;
+   marketCap: number;
    pnl: number;
    avg: number;
 };
@@ -18,11 +18,11 @@ export type ExtendedCoinModel = CoinModel & {
 };
 
 export type TransactionModel = {
-   _id: string;
-   coin_amount: number;
-   total_cost: number;
-   coin_name: string;
+   id: number;
+   coinAmount: number;
+   totalCost: number;
+   coinName: string;
    createdAt: Date;
 };
 
-export type TransactionDto = Omit<TransactionModel, '_id' | 'createdAt'>;
+export type TransactionDto = Omit<TransactionModel, 'id' | 'createdAt'>;

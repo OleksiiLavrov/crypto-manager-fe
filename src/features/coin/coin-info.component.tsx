@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { CoinModel, TransactionModel } from "../../types/models";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { coinsService, transactionsService } from "../../api";
+import { coinsService } from "../../api";
 
 export const CoinInfo = () => {
   const { coinName } = useParams();
@@ -14,7 +14,7 @@ export const CoinInfo = () => {
       if (coinName) {
         const coin = await coinsService.getCoin(coinName);
         if (coin) {
-          const transactions = await transactionsService.getTransactionsPerCoin(coin.name);
+          const transactions = await coinsService.getCoinTransactions(coin.name);
           setCoin(coin);
           setTransactions(transactions);
         }
@@ -38,12 +38,12 @@ export const CoinInfo = () => {
         <TableBody>
           {transactions.map((transaction) => (
             <TableRow
-              key={transaction._id}
+              key={transaction.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{transaction.coin_name}</TableCell>
-              <TableCell>${transaction.total_cost.toFixed(2)}</TableCell>
-              <TableCell>{transaction.coin_amount}</TableCell>
+              <TableCell>{transaction.coinName}</TableCell>
+              <TableCell>${transaction.totalCost.toFixed(2)}</TableCell>
+              <TableCell>{transaction.coinAmount}</TableCell>
               <TableCell>
                 {new Date(transaction.createdAt).toLocaleDateString()}
               </TableCell>

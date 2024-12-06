@@ -32,10 +32,10 @@ export const DashboardTableHead = () => {
          <TableRow>
             <DashboardTableCell source="name" label="Name" />
             <DashboardTableCell source="price" label="Current price" />
-            <DashboardTableCell source="total_amount" label="Total amount" />
+            <DashboardTableCell source="totalAmount" label="Total amount" />
             <DashboardTableCell source="avg" label="Average price" />
-            <DashboardTableCell source="total_value" label="Total value" />
-            <DashboardTableCell source="total_invested" label="Total invested" />
+            <DashboardTableCell source="totalValue" label="Total value" />
+            <DashboardTableCell source="totalInvested" label="Total invested" />
             <DashboardTableCell source="pnl" label="PNL" />
             <DashboardTableCell source="updatedAt" label="Updated At" />
             <DashboardTableCell source="createdAt" label="Created At" />

@@ -50,9 +50,9 @@ export const AddTransaction = () => {
       try {
          if (coinName.length && coinAmount.length && total.length) {
             await createTransaction({
-               coin_amount: Number(coinAmount),
-               coin_name: coinName,
-               total_cost: Number(total),
+               coinAmount: Number(coinAmount),
+               coinName: coinName,
+               totalCost: Number(total),
             });
             toast.success('Transaction added!');
          }
