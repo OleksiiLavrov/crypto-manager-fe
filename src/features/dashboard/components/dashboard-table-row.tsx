@@ -23,7 +23,7 @@ export const DashboardTableRow = ({
 }) => {
    const navigate = useNavigate();
    const {
-      _id,
+      id,
       name,
       price,
       totalAmount,
@@ -41,8 +41,8 @@ export const DashboardTableRow = ({
 
    const handleHideCoin = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      setHiddenCoinsIds([...hiddenCoinsIds, _id]);
-   }, [_id, hiddenCoinsIds, setHiddenCoinsIds]);
+      setHiddenCoinsIds([...hiddenCoinsIds, id]);
+   }, [id, hiddenCoinsIds, setHiddenCoinsIds]);
 
    return (
       <TableRow

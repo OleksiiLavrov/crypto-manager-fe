@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { CoinModel, TransactionModel } from "../../types/models";
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter } from '@mui/material';
 import { coinsService } from "../../api";
 
 export const CoinInfo = () => {
@@ -30,6 +30,7 @@ export const CoinInfo = () => {
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: 'bold' }}>Coin</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Total Cost</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Amount</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
@@ -42,6 +43,7 @@ export const CoinInfo = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell>{transaction.coinName}</TableCell>
+              <TableCell>${(transaction.totalCost / transaction.coinAmount).toFixed(2)}</TableCell>
               <TableCell>${transaction.totalCost.toFixed(2)}</TableCell>
               <TableCell>{transaction.coinAmount}</TableCell>
               <TableCell>
@@ -50,6 +52,13 @@ export const CoinInfo = () => {
             </TableRow>
           ))}
         </TableBody>
+        <TableRow sx={{background: 'rgba(0,0,0,0.1)'}}>
+          <TableCell sx={{ fontWeight: 'bold' }}>Total</TableCell>
+          <TableCell></TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>${coin.totalInvested}</TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>{coin.totalAmount}</TableCell>
+          <TableCell></TableCell>
+        </TableRow>
       </Table>
     </TableContainer>
   );

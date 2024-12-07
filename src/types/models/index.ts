@@ -1,16 +1,19 @@
-export type CoinModel = {
+export type BaseCoinModel = {
    id: number;
+   name: string;
    totalInvested: number;
    totalAmount: number;
-   totalValue: number;
-   name: string;
-   transactions: TransactionModel[];
-   createdAt: Date;
    updatedAt: Date;
+   createdAt: Date;
+};
+
+export type CoinModel = BaseCoinModel & {
+   totalValue: number;
    price: number;
    marketCap: number;
    pnl: number;
    avg: number;
+   transactions: TransactionModel[];
 };
 
 export type ExtendedCoinModel = CoinModel & {
