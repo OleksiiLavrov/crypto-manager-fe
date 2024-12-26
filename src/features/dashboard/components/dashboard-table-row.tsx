@@ -34,6 +34,7 @@ export const DashboardTableRow = ({
       updatedAt,
       createdAt,
       backgroundColor,
+      percentageFromTotalInvested,
    } = rowData;
 
    const [hovered, setHovered] = useState<boolean>(false);
@@ -71,6 +72,9 @@ export const DashboardTableRow = ({
             }}
          >
             {name}
+         </StyledTableCell>
+         <StyledTableCell component="th" scope="row">
+            {percentageFromTotalInvested}%
          </StyledTableCell>
          <StyledTableCell component="th" scope="row">
             {price}

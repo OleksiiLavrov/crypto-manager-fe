@@ -31,6 +31,7 @@ export const DashboardTableHead = () => {
       <TableHead>
          <TableRow>
             <DashboardTableCell source="name" label="Name" />
+            <DashboardTableCell source="percentageFromTotalInvested" label="% from total" />
             <DashboardTableCell source="price" label="Current price" />
             <DashboardTableCell source="totalAmount" label="Total amount" />
             <DashboardTableCell source="avg" label="Average price" />

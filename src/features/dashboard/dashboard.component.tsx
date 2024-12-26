@@ -73,6 +73,7 @@ export const Dashboard = () => {
                               rowData={{
                                  ...coinModel,
                                  price: coinModel.price.toFixed(4),
+                                 percentageFromTotalInvested: ((coinModel.totalInvested / total.totalInvested) * 100).toFixed(2),
                                  totalAmount: coinModel.totalAmount?.toFixed(3),
                                  avg: coinModel.avg?.toFixed(4),
                                  totalValue: coinModel.totalValue?.toFixed(2),

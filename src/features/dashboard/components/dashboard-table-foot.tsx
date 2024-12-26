@@ -18,6 +18,7 @@ export const DashboardTableFoot = ({ rowData }: { rowData: { [key: string]: any 
          <StyledTableCell></StyledTableCell>
          <StyledTableCell></StyledTableCell>
          <StyledTableCell></StyledTableCell>
+         <StyledTableCell></StyledTableCell>
          <StyledTableCell sx={{ fontWeight: 700 }}>
             {totalValue}
             <sup style={{color: (totalValue - totalInvested) > 0 ? '#90ee90' : '#fc4454'}}>

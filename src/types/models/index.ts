@@ -7,7 +7,12 @@ export type BaseCoinModel = {
    createdAt: Date;
 };
 
-export type CoinModel = BaseCoinModel & {
+export type CoinModelPercentage = {
+   percentageFromTotalInvested: number;
+   percentageFromTotalPrice: number;
+}
+
+export type CoinModel = BaseCoinModel & CoinModelPercentage & {
    totalValue: number;
    price: number;
    marketCap: number;
