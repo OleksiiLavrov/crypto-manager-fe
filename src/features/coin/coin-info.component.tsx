@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { CoinModel, TransactionModel } from "../../types/models";
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { coinsService } from "../../api";
 
 export const CoinInfo = () => {
