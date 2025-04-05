@@ -3,16 +3,16 @@ import { TransactionDto, TransactionModel } from '../types/models';
 class TransactionsService {
    public async createTransaction(dto: TransactionDto): Promise<TransactionModel | undefined> {
       try {
-         const { coinAmount, coinName, totalCost } = dto;
+         const { amount, coinId, cost } = dto;
          return fetch(`${import.meta.env.VITE_API_URL}/transactions`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               coinAmount,
-               coinName,
-               totalCost,
+               amount,
+               coinId,
+               cost,
             }),
          })
             .then((res) => res.json())

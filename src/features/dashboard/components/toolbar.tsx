@@ -12,7 +12,7 @@ export const Toolbar = () => {
   return (
   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '16px', gap: '16px' }}>
     <Typography sx={{ fontWeight: 700, backgroundColor: "#1976d2", color: "#ffffff", padding: '8px 16px', borderRadius: '15px' }}>
-       Owned coins: {coins.filter((coin) => coin.totalAmount > 0).length}
+       Owned coins: {coins.filter((coin) => coin.amount > 0).length}
     </Typography>
     <Box 
        sx={{ position: 'relative', width: '175px', textAlign: 'center', cursor: 'pointer' }} 

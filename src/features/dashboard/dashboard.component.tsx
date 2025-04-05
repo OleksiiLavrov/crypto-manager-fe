@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { TableBody, Table, TableContainer, Paper } from '@mui/material';
-import { CoinModel } from '../../types/models';
+import { UserCoinModel } from '../../types/models';
 import { DashboardTableFoot, DashboardTableHead, DashboardTableRow, Toolbar } from './components';
 import useStore from '../../store/store';
 import useDashboardTableStore from '../../store/dashboard-table-store';
@@ -9,11 +9,16 @@ export const Dashboard = () => {
    const { coins, getCoins } = useStore();
    const { hiddenCoinsIds, coinsSortingRule } = useDashboardTableStore();
 
+   useEffect(() => {
+      (async () => await getCoins())();
+   }, []);
+
    const total = useMemo(() => {
+      if (!coins.length) return { totalValue: 0, totalInvested: 0, pnl: 0 };
       const totalSum = coins.reduce(
-         (acc, coin: CoinModel) => {
+         (acc, coin: UserCoinModel) => {
             acc.totalValue += coin.totalValue;
-            acc.totalInvested += coin.totalInvested;
+            acc.totalInvested += coin.invested;
             return acc;
          },
          { totalValue: 0, totalInvested: 0, pnl: 0 },
@@ -25,6 +30,7 @@ export const Dashboard = () => {
    }, [coins]);
 
    const sortedCoins = useMemo(() => {
+      if (!coins.length) return [];
       if (!coinsSortingRule.rule || !coinsSortingRule.rule.length) return coins;
       return coins.sort((a, b) => {
          if (typeof a[coinsSortingRule.rule] === 'number' && typeof b[coinsSortingRule.rule] === 'number') {
@@ -48,10 +54,6 @@ export const Dashboard = () => {
       });
    }, [coins, coinsSortingRule]);
 
-   useEffect(() => {
-      (async () => await getCoins())();
-   }, []);
-
    if (!coins.length) {
       return null;
    }
@@ -65,21 +67,24 @@ export const Dashboard = () => {
                {sortedCoins.length > 0 &&
                   sortedCoins
                      .filter((coin) => !hiddenCoinsIds.includes(coin.id))
-                     .map((coinModel: CoinModel, index: number) => {
+                     .map((coinModel: UserCoinModel, index: number) => {
                         return (
                            <DashboardTableRow
-                              key={coinModel.name}
+                              key={coinModel.coin.name}
                               isEven={index % 2 === 0}
                               rowData={{
-                                 ...coinModel,
-                                 price: coinModel.price.toFixed(4),
-                                 percentageFromTotalInvested: ((coinModel.totalInvested / total.totalInvested) * 100).toFixed(2),
-                                 totalAmount: coinModel.totalAmount?.toFixed(3),
-                                 avg: coinModel.avg?.toFixed(4),
-                                 totalValue: coinModel.totalValue?.toFixed(2),
-                                 totalInvested: coinModel.totalInvested?.toFixed(2),
+                                 id: coinModel.id,
+                                 name: coinModel.coin.name,
+                                 price: coinModel?.coin?.price?.toFixed(4),
+                                 percentageFromTotalInvested: ((coinModel.invested / total.totalInvested) * 100).toFixed(2),
+                                 totalAmount: coinModel.amount?.toFixed(3),
+                                 avg: coinModel?.avg?.toFixed(4),
+                                 totalValue: coinModel?.totalValue?.toFixed(2),
+                                 totalInvested: coinModel?.invested?.toFixed(2),
                                  pnl: coinModel.pnl?.toFixed(1),
                                  backgroundColor: coinModel.pnl < 0 ? '#fc4454' : '#90ee90',
+                                 updatedAt: coinModel.coin.updatedAt,
+                                 createdAt: coinModel.coin.createdAt,
                               }}
                            />
                         );

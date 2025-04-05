@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import store from './local-store';
-import { CoinModel } from '../types/models';
+import { UserCoinModel } from '../types/models';
 
 type SortingRule = {
-   rule: keyof CoinModel;
+   rule: keyof UserCoinModel;
    direction: 'ASC' | 'DESC';
 };
 
@@ -11,7 +11,7 @@ type StoreState = {
    hiddenCoinsIds: number[];
    coinsSortingRule: SortingRule;
    setHiddenCoinsIds: (ids: number[]) => void;
-   setCoinsSortingRule: (rule: keyof CoinModel) => void;
+   setCoinsSortingRule: (rule: keyof UserCoinModel) => void;
 };
 
 const getInitialPropsState = (): Omit<StoreState, 'setHiddenCoinsIds' | 'setCoinsSortingRule'> => {
@@ -32,7 +32,7 @@ const useDashboardTableStore = create<StoreState>((set) => ({
       store.setToStorage(ids, 'hiddenCoinsIds');
       set(() => ({ hiddenCoinsIds: ids }));
    },
-   setCoinsSortingRule: (rule: keyof CoinModel) => {
+   setCoinsSortingRule: (rule: keyof UserCoinModel) => {
       set((state) => {
          const newRule: SortingRule = {
             rule,

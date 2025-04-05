@@ -1,36 +1,57 @@
-export type BaseCoinModel = {
+export type BaseUserCoinModel = {
    id: number;
-   name: string;
-   totalInvested: number;
-   totalAmount: number;
+   userId: number;
+   coinId: number;
+   invested: number;
+   amount: number;
    updatedAt: Date;
    createdAt: Date;
-};
-
-export type CoinModelPercentage = {
-   percentageFromTotalInvested: number;
-   percentageFromTotalPrice: number;
-}
-
-export type CoinModel = BaseCoinModel & CoinModelPercentage & {
-   totalValue: number;
-   price: number;
-   marketCap: number;
-   pnl: number;
-   avg: number;
-   transactions: TransactionModel[];
-};
-
-export type ExtendedCoinModel = CoinModel & {
-   hidden: boolean;
+   coin: CoinModel;
 };
 
 export type TransactionModel = {
    id: number;
-   coinAmount: number;
-   totalCost: number;
-   coinName: string;
+   amount: number;
+   cost: number;
+   createdAt: Date;
+   updatedAt: Date;
+   userCoinId: number;
+   coinId: number;
+   userId: number;
+};
+
+export type CoinModel = {
+   id: number;
+   name: string;
+   marketCap: number;
+   price: number;
+   updatedAt: Date;
    createdAt: Date;
 };
 
+export type UserModel = {
+   id: number;
+   name: string;
+   email: string;
+   createdAt: Date;
+   updatedAt: Date;
+};
+
 export type TransactionDto = Omit<TransactionModel, 'id' | 'createdAt'>;
+
+export type UserCoinModelPercentage = {
+   percentageFromTotalInvested: number;
+   percentageFromTotalPrice: number;
+};
+
+export type UserCoinModel = BaseUserCoinModel &
+   UserCoinModelPercentage & {
+      totalValue: number;
+      pnl: number;
+      avg: number;
+      transactions: TransactionModel[];
+   };
+
+export type ExtendedUserCoinModel = UserCoinModel & {
+   hidden: boolean;
+};

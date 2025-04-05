@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { CoinModel, TransactionDto } from '../types/models';
+import { UserCoinModel, TransactionDto } from '../types/models';
 import { coinsService, transactionsService } from '../api';
 
 interface StoreState {
-   coins: CoinModel[];
+   coins: UserCoinModel[];
    getCoins: () => Promise<void>;
    createTransaction: (dto: TransactionDto) => Promise<void>;
 }

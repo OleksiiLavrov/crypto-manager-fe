@@ -5,6 +5,21 @@ import { useCallback, useState } from 'react';
 import useDashboardTableStore from '../../../store/dashboard-table-store';
 import { useNavigate } from 'react-router-dom';
 
+type DashboardTableRowData = {
+   id: number;
+   name: string;
+   price: string;
+   totalAmount: string;
+   avg: string;
+   totalValue: string;
+   totalInvested: string;
+   pnl: string;
+   backgroundColor: string;
+   updatedAt: Date;
+   createdAt: Date;
+   percentageFromTotalInvested: string;
+}
+
 const StyledTableCell = styled(TableCell)(() => ({
    border: '1px solid #cecece',
    textAlign: 'center',
@@ -18,7 +33,7 @@ export const DashboardTableRow = ({
    rowData,
    isEven,
 }: {
-   rowData: { [key: string]: any };
+   rowData: DashboardTableRowData;
    isEven: boolean;
 }) => {
    const navigate = useNavigate();

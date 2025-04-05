@@ -1,35 +1,33 @@
-import { CoinModel, TransactionModel } from '../types/models';
+import { TransactionModel, UserCoinModel } from '../types/models';
 import store from '../store/local-store';
+import { axiosInstance } from './http-client';
 
 const TIME_TO_CACHE = 10000;
 
 class CoinsService {
-   public async getCoins(): Promise<CoinModel[] | undefined> {
+   public async getCoins(): Promise<UserCoinModel[] | undefined> {
       try {
          const cached = store.getFromStorage('coins');
          if (cached && Date.now() - cached.timestamp < TIME_TO_CACHE) {
             return cached.data;
          }
-         return fetch(`${import.meta.env.VITE_API_URL}/coins`)
-            .then((res) => res.json())
-            .then((data: CoinModel[]) => {
-               store.setToStorage(data, 'coins');
-               return data;
-            });
+         const response = await axiosInstance.get('/coins');
+         const data = response.data;
+         store.setToStorage(data, 'coins');
+         return data;
       } catch (error) {
          console.error(error);
       }
    }
 
-   public async getCoin(coinName: string): Promise<CoinModel | undefined> {
+   public async getCoin(coinId: number): Promise<UserCoinModel | undefined> {
       try {
          const cached = store.getFromStorage('coins');
          if (cached && Date.now() - cached.timestamp < TIME_TO_CACHE) {
-            return cached.data.find((coin: CoinModel) => coin.name === coinName);
+            return cached.data.find((coin: UserCoinModel) => coin.id === coinId);
          }
-         return fetch(`${import.meta.env.VITE_API_URL}/coins/${coinName}`)
-            .then((res) => res.json())
-            .then((data: CoinModel) => data);
+         const response = await axiosInstance.get(`/coins/${coinId}`);
+         return response.data;
       } catch (error) {
          console.error(error);
       }
@@ -37,9 +35,8 @@ class CoinsService {
 
    public async getCoinTransactions(coinName: string): Promise<TransactionModel[] | undefined> {
       try {
-         return fetch(`${import.meta.env.VITE_API_URL}/coins/${coinName}/transactions`)
-            .then((res) => res.json())
-            .then((data: CoinModel) => data.transactions);
+         const response = await axiosInstance.get(`/coins/${coinName}/transactions`);
+         return response.data.transactions;
       } catch (error) {
          console.error(error);
       }
