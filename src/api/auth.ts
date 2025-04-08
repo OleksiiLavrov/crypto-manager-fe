@@ -1,7 +1,12 @@
 import { axiosInstance } from './http-client';
-
+import { UserModel } from '../types/models';
 class AuthService {
    private readonly TOKEN_KEY = 'auth_token';
+
+   public async getUser(): Promise<UserModel> {
+      const response = await axiosInstance.get('/auth/profile');
+      return response.data;
+   }
 
    public async login(email: string, password: string) {
       const response = await axiosInstance.post('/auth/login', { email, password });

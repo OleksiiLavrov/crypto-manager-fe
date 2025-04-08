@@ -1,28 +1,28 @@
 import { useParams } from "react-router-dom";
-import { CoinModel, TransactionModel } from "../../types/models";
+import { UserCoinModel, TransactionModel } from "../../types/models";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { coinsService } from "../../api";
 
 export const CoinInfo = () => {
   const { coinName } = useParams();
-  const [coin, setCoin] = useState<CoinModel | undefined>(undefined);
+  const [userCoin, setUserCoin] = useState<UserCoinModel | undefined>(undefined);
   const [transactions, setTransactions] = useState<TransactionModel[] | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
       if (coinName) {
-        const coin = await coinsService.getCoin(coinName);
-        if (coin) {
-          const transactions = await coinsService.getCoinTransactions(coin.name);
-          setCoin(coin);
+        const data = await coinsService.getCoin(coinName);
+        if (data?.coin) {
+          const transactions = await coinsService.getCoinTransactions(data.coin.name);
+          setUserCoin(data);
           setTransactions(transactions);
         }
       }
     })();
   }, [coinName]);
 
-  if (!coin || !transactions) return <div>Coin transactions are not found</div>;
+  if (!userCoin || !transactions) return <div>Coin transactions are not found</div>;
 
   return (
     <TableContainer component={Paper}>
@@ -42,10 +42,10 @@ export const CoinInfo = () => {
               key={transaction.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{transaction.coinName}</TableCell>
-              <TableCell>${(transaction.totalCost / transaction.coinAmount).toFixed(2)}</TableCell>
-              <TableCell>${transaction.totalCost.toFixed(2)}</TableCell>
-              <TableCell>{transaction.coinAmount}</TableCell>
+              <TableCell>{userCoin.coin.name}</TableCell>
+              <TableCell>${(transaction.cost / transaction.amount).toFixed(2)}</TableCell>
+              <TableCell>${transaction.cost.toFixed(2)}</TableCell>
+              <TableCell>{transaction.amount}</TableCell>
               <TableCell>
                 {new Date(transaction.createdAt).toLocaleDateString()}
               </TableCell>
@@ -55,8 +55,8 @@ export const CoinInfo = () => {
         <TableRow sx={{background: 'rgba(0,0,0,0.1)'}}>
           <TableCell sx={{ fontWeight: 'bold' }}>Total</TableCell>
           <TableCell></TableCell>
-          <TableCell sx={{ fontWeight: 'bold' }}>${coin.totalInvested}</TableCell>
-          <TableCell sx={{ fontWeight: 'bold' }}>{coin.totalAmount}</TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>${userCoin.invested.toFixed(2)}</TableCell>
+          <TableCell sx={{ fontWeight: 'bold' }}>{userCoin.amount.toFixed(2)}</TableCell>
           <TableCell></TableCell>
         </TableRow>
       </Table>

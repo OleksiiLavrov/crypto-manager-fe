@@ -20,13 +20,13 @@ class CoinsService {
       }
    }
 
-   public async getCoin(coinId: number): Promise<UserCoinModel | undefined> {
+   public async getCoin(coinName: string): Promise<UserCoinModel | undefined> {
       try {
          const cached = store.getFromStorage('coins');
          if (cached && Date.now() - cached.timestamp < TIME_TO_CACHE) {
-            return cached.data.find((coin: UserCoinModel) => coin.id === coinId);
+            return cached.data.find((coin: UserCoinModel) => coin.coin.name === coinName);
          }
-         const response = await axiosInstance.get(`/coins/${coinId}`);
+         const response = await axiosInstance.get(`/coins/${coinName}`);
          return response.data;
       } catch (error) {
          console.error(error);

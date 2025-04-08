@@ -42,7 +42,7 @@ export const AddTransaction = () => {
    }, []);
 
    const coinsName = useMemo(() => {
-      return coins.map((coin) => coin.name);
+      return coins.map((userCoin) => userCoin.coin.name);
    }, [coins]);
 
    const submitHandler = async () => {
@@ -50,9 +50,9 @@ export const AddTransaction = () => {
       try {
          if (coinName.length && coinAmount.length && total.length) {
             await createTransaction({
-               coinAmount: Number(coinAmount),
+               amount: Number(coinAmount),
                coinName: coinName,
-               totalCost: Number(total),
+               cost: Number(total),
             });
             toast.success('Transaction added!');
          }

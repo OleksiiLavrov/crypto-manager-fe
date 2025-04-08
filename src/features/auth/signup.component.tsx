@@ -33,6 +33,7 @@ export const Signup = () => {
     setError(null);
     
     try {
+      await authService.signup(formData.email, formData.username, formData.password);
       await authService.login(formData.email, formData.password);
       navigate('/dashboard');
     } catch (err) {
@@ -88,9 +89,9 @@ export const Signup = () => {
               id="username"
               label="Username"
               name="username"
-              autoComplete="email"
+              autoComplete="username"
               autoFocus
-              value={formData.email}
+              value={formData.username}
               onChange={handleChange}
             />
             <TextField

@@ -6,7 +6,7 @@ import useStore from '../../store/store';
 import useDashboardTableStore from '../../store/dashboard-table-store';
 
 export const Dashboard = () => {
-   const { coins, getCoins } = useStore();
+   const { coins: userCoins, getCoins } = useStore();
    const { hiddenCoinsIds, coinsSortingRule } = useDashboardTableStore();
 
    useEffect(() => {
@@ -14,11 +14,11 @@ export const Dashboard = () => {
    }, []);
 
    const total = useMemo(() => {
-      if (!coins.length) return { totalValue: 0, totalInvested: 0, pnl: 0 };
-      const totalSum = coins.reduce(
-         (acc, coin: UserCoinModel) => {
-            acc.totalValue += coin.totalValue;
-            acc.totalInvested += coin.invested;
+      if (!userCoins.length) return { totalValue: 0, totalInvested: 0, pnl: 0 };
+      const totalSum = userCoins.reduce(
+         (acc, userCoin: UserCoinModel) => {
+            acc.totalValue += userCoin.totalValue;
+            acc.totalInvested += userCoin.invested;
             return acc;
          },
          { totalValue: 0, totalInvested: 0, pnl: 0 },
@@ -27,12 +27,12 @@ export const Dashboard = () => {
          ((totalSum.totalValue - totalSum.totalInvested) / Math.abs(totalSum.totalInvested)) *
          100;
       return totalSum;
-   }, [coins]);
+   }, [userCoins]);
 
    const sortedCoins = useMemo(() => {
-      if (!coins.length) return [];
-      if (!coinsSortingRule.rule || !coinsSortingRule.rule.length) return coins;
-      return coins.sort((a, b) => {
+      if (!userCoins.length) return [];
+      if (!coinsSortingRule.rule || !coinsSortingRule.rule.length) return userCoins;
+      return userCoins.sort((a, b) => {
          if (typeof a[coinsSortingRule.rule] === 'number' && typeof b[coinsSortingRule.rule] === 'number') {
             return coinsSortingRule.direction === 'ASC' 
                ? (Number(a[coinsSortingRule.rule]) - Number(b[coinsSortingRule.rule])) 
@@ -52,9 +52,9 @@ export const Dashboard = () => {
          }
          return 0;
       });
-   }, [coins, coinsSortingRule]);
+   }, [userCoins, coinsSortingRule]);
 
-   if (!coins.length) {
+   if (!userCoins.length) {
       return null;
    }
 
@@ -66,25 +66,25 @@ export const Dashboard = () => {
             <TableBody>
                {sortedCoins.length > 0 &&
                   sortedCoins
-                     .filter((coin) => !hiddenCoinsIds.includes(coin.id))
-                     .map((coinModel: UserCoinModel, index: number) => {
+                     .filter((userCoin) => !hiddenCoinsIds.includes(userCoin.coin.id))
+                     .map((userCoinModel: UserCoinModel, index: number) => {
                         return (
                            <DashboardTableRow
-                              key={coinModel.coin.name}
+                              key={userCoinModel.coin.name}
                               isEven={index % 2 === 0}
                               rowData={{
-                                 id: coinModel.id,
-                                 name: coinModel.coin.name,
-                                 price: coinModel?.coin?.price?.toFixed(4),
-                                 percentageFromTotalInvested: ((coinModel.invested / total.totalInvested) * 100).toFixed(2),
-                                 totalAmount: coinModel.amount?.toFixed(3),
-                                 avg: coinModel?.avg?.toFixed(4),
-                                 totalValue: coinModel?.totalValue?.toFixed(2),
-                                 totalInvested: coinModel?.invested?.toFixed(2),
-                                 pnl: coinModel.pnl?.toFixed(1),
-                                 backgroundColor: coinModel.pnl < 0 ? '#fc4454' : '#90ee90',
-                                 updatedAt: coinModel.coin.updatedAt,
-                                 createdAt: coinModel.coin.createdAt,
+                                 id: userCoinModel.coin.id,
+                                 name: userCoinModel.coin.name,
+                                 price: userCoinModel?.coin?.price?.toFixed(4),
+                                 percentageFromTotalInvested: ((userCoinModel.invested / total.totalInvested) * 100).toFixed(2),
+                                 totalAmount: userCoinModel.amount?.toFixed(3),
+                                 avg: userCoinModel?.avg?.toFixed(4),
+                                 totalValue: userCoinModel?.totalValue?.toFixed(2),
+                                 totalInvested: userCoinModel?.invested?.toFixed(2),
+                                 pnl: userCoinModel.pnl?.toFixed(1),
+                                 backgroundColor: userCoinModel.pnl < 0 ? '#fc4454' : '#90ee90',
+                                 updatedAt: userCoinModel.coin.updatedAt,
+                                 createdAt: userCoinModel.coin.createdAt,
                               }}
                            />
                         );

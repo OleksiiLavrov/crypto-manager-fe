@@ -15,9 +15,10 @@ export type TransactionModel = {
    cost: number;
    createdAt: Date;
    updatedAt: Date;
-   userCoinId: number;
-   coinId: number;
+   // userCoinId: number;
+   // coinId: number;
    userId: number;
+   coinName: string;
 };
 
 export type CoinModel = {
@@ -37,7 +38,7 @@ export type UserModel = {
    updatedAt: Date;
 };
 
-export type TransactionDto = Omit<TransactionModel, 'id' | 'createdAt'>;
+export type TransactionDto = Omit<TransactionModel, 'id' | 'createdAt' | 'updatedAt' | 'userId'>;
 
 export type UserCoinModelPercentage = {
    percentageFromTotalInvested: number;

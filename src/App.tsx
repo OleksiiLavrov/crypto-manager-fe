@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 export const App = () => {
    const location = useLocation();
    const isUserAuthenticated = useMemo(() => authService.isAuthenticated(), [location.pathname]);
+
    return (
       <Box>
          {isUserAuthenticated && (
